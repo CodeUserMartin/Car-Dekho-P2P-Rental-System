@@ -1,13 +1,14 @@
 import connectDb from "./db/connectionDb.js";
 import { app } from "./app.js";
 import { port } from "./constants.js";
+import "dotenv/config";
 
 
 
 connectDb()
     .then(() => {
         app.listen(port || 5000, () => {
-            console.log(`Server is running at : https://localhost:${port}`);
+            console.log(`Server is running at : http://localhost:${port}`);
         });
     })
     .catch((err) => {
