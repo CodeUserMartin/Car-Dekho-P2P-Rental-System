@@ -16,6 +16,7 @@ import { ListMyCarPage } from "./pages/ListMyCarPage"
 import { CancellationPage } from "./pages/CancellationPage"
 import { MyBookingsPage } from "./pages/MyBookingsPage"
 import { ReturnCarPage } from "./pages/ReturnCarPage"
+import RegisterCarForm from "./commponents/RegisterCarForm";
 
 function App() {
 
@@ -51,6 +52,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <main>
+        <RegisterCarForm />
       </main>
     </>
   )
