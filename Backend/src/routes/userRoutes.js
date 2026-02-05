@@ -9,7 +9,10 @@ const router = Router();
 router.post(
   "/register-car",
   requireAuth(),
-  upload.fields([{ name: "carImages", maxCount: 5 }]), // fix typo maxCount
+  upload.fields([
+    { name: "carImages", maxCount: 4 },
+    { name: "addressProof", maxCount: 1 }
+  ]), // fix typo maxCount
   registerCar
 );
 
