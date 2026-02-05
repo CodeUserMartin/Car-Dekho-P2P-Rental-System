@@ -8,12 +8,6 @@ const userSchema = new mongoose.Schema(
             required: true,
             unique: true
         },
-        residingAddress: {
-            type: String
-        },
-        addressProof: {
-            type: String   // Cloudinary URL
-        },
         panNumber: {
             type: String,
             uppercase: true,
