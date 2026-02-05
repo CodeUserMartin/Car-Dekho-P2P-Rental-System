@@ -17,9 +17,14 @@ const RegisterCarForm = () => {
     carPrice: "",
     carLocation: "",
     residingAddress: "",
-    panNumber: ""
+    panNumber: "",
+    altPhoneNumer: "",
+    carDescription: "",
+    registerBasis: "Weekly",
+    seatingCapacity: ""
   });
   const [carImages, setCarImages] = useState([]);
+  const [addressProof, setAddressProof] = useState(null);
 
   // Prefill Clerk info if needed (not stored in backend yet)
   useEffect(() => {
@@ -33,6 +38,17 @@ const RegisterCarForm = () => {
       }));
     }
   }, [user]);
+
+  useEffect(() => {
+    if (formData.carType === "EV") {
+      setFormData(prev => ({
+        ...prev,
+        fuelType: "Electric",
+        transmission: "Automatic"
+      }));
+    }
+  }, [formData.carType]);
+
 
   const handleChange = e => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -52,6 +68,15 @@ const RegisterCarForm = () => {
       }
 
       carImages.forEach(file => data.append("carImages", file));
+
+      if (addressProof) {
+        data.append("addressProof", addressProof);
+      }
+
+      if (carImages.length && addressProof.length === 0) {
+        alert("Please upload car images and address proof");
+        return;
+      }
 
       // ✅ get the session token from Clerk
       const token = await getToken();
@@ -104,14 +129,14 @@ const RegisterCarForm = () => {
         <option value="EV">EV</option>
       </select>
 
-      <select name="fuelType" value={formData.fuelType} onChange={handleChange}>
+      <select name="fuelType" value={formData.fuelType} onChange={handleChange} disabled={formData.carType === "EV"}>
         <option value="Petrol">Petrol</option>
         <option value="Diesel">Diesel</option>
         <option value="Electric">Electric</option>
         <option value="CNG">CNG</option>
       </select>
 
-      <select name="transmission" value={formData.transmission} onChange={handleChange}>
+      <select name="transmission" value={formData.transmission} onChange={handleChange} disabled={formData.carType === "EV"}>
         <option value="Automatic">Automatic</option>
         <option value="Manual">Manual</option>
       </select>
@@ -122,8 +147,31 @@ const RegisterCarForm = () => {
       <input type="text" name="carLocation" placeholder="Location" onChange={handleChange} required />
       <input type="text" name="residingAddress" placeholder="Residing Address" onChange={handleChange} required />
       <input type="text" name="panNumber" placeholder="PAN Number" onChange={handleChange} required />
+      <input type="text" name="altPhoneNumber" placeholder="Alt Phone Number" onChange={handleChange} required />
+      <textarea name="carDescription" placeholder="Car Description" onChange={handleChange} required />
+      <input type="text" name="seatingCapacity" placeholder="5 Seater" onChange={handleChange} required />
+      <select name="registerBasis" onChange={handleChange}>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+        <option value="Yearly">Yearly</option>
+      </select>
 
-      <input type="file" multiple accept="image/*" onChange={handleFileChange} />
+      <label>Car Images
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleFileChange}
+          required />
+      </label>
+
+      <label>Address Proof (Aadhar / DL)</label>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setAddressProof(e.target.files[0])}
+        required
+      />
 
       <button type="submit">Register Car</button>
     </form>
