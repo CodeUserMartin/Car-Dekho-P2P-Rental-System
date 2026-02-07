@@ -1,7 +1,10 @@
 import { Router } from "express"
 import { registerCar } from "../controllers/carRegistrationController.js";
+import { getUserProfile } from "../controllers/UserDetailsController.js";
 import { upload } from "../middleware/multerMiddleware.js";
 import { requireAuth } from "@clerk/express";
+import { getMyCars } from "../controllers/carController.js";
+import { searchCars } from "../controllers/searchControllers.js";
 
 const router = Router();
 
@@ -16,15 +19,13 @@ router.post(
   registerCar
 );
 
+router.get("/profile",
+  requireAuth(),
+  getUserProfile)
 
-router.get("/auth-test", requireAuth(), (req, res) => {
-  res.json({
-    success: true,
-    userId: req.auth.userId
-  });
-});
+router.get("/my-cars", getMyCars);
 
-
+router.post("/search", searchCars);
 
 
 export default router;
