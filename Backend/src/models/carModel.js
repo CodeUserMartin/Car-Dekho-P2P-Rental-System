@@ -68,8 +68,8 @@ const carSchema = new mongoose.Schema(
         },
         carStatus: {
             type: String,
-            enum: ["available", "booked"], // Booked or available
-            default: "available"
+            enum: ["Available", "Booked"], // Booked or available
+            default: "Available"
         }
     },
     {

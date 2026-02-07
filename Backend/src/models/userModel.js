@@ -13,9 +13,16 @@ const userSchema = new mongoose.Schema(
             uppercase: true,
             match: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/
         },
-        altPhoneNumber: {
-            type: Number
+        phoneNumber: {
+            type: String,
+            required: true,
+            match: [/^[0-9]{10}$/, "Phone number must be exactly 10 digits"]
         },
+        altPhoneNumber: {
+            type: String,
+            required: true,
+            match: [/^[0-9]{10}$/, "Alternate phone number must be exactly 10 digits"]
+        }
     },
     {
         timestamps: true
