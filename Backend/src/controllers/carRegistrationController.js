@@ -16,6 +16,7 @@ export const registerCar = async (req, res) => {
     let {
       residingAddress,
       panNumber,
+      phoneNumber,
       altPhoneNumber,
       carDescription,
       carModel,
@@ -31,7 +32,7 @@ export const registerCar = async (req, res) => {
     } = req.body;
 
     if (
-      !residingAddress || !panNumber || !altPhoneNumber ||
+      !residingAddress || !panNumber || !phoneNumber || !altPhoneNumber ||
       !carModel || !carNumber || !carType ||
       !carPrice || !carLocation || !registerBasis
     ) {
@@ -67,7 +68,8 @@ export const registerCar = async (req, res) => {
       user = await User.create({
         clerkUserId,
         panNumber,
-        altPhoneNumber
+        phoneNumber,
+        altPhoneNumber,
       });
     }
 
